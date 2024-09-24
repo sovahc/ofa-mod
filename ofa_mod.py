@@ -161,7 +161,7 @@ rC('.pane.top.right','itemconfigure','numbers','-text',' DRO ')
 #### Radio buttons
 def RADIOc(name):
 	BFSc(name)
-	rC(name, "configure", '-width', 2, '-height', 2)
+	rC(name, "configure", '-width', 4, '-height', 2, '-indicatoron', False, '-anchor', 'center')
 	
 RADIOc(".pane.top.tabs.fmanual.axes.axisx");
 RADIOc(".pane.top.tabs.fmanual.axes.axisy");
@@ -171,9 +171,7 @@ BFc(".pane.top.tabs");
 Bc(".pane.top.tabs.fmanual");
 BFc(".pane.top.tabs.fmanual.axis");
 
-# XXX How to completely remove this label?
-rC(".pane.top.tabs.fmanual.axis", 'configure', '-width', 1)
-rC(".pane.top.tabs.fmanual.axis", "configure", "-background", BG, "-fg", BG);
+rC('grid', 'forget', ".pane.top.tabs.fmanual.axis")
 
 Bc(".pane.top.tabs.fmanual.axes");
 Bc(".pane.top.tabs.fmdi");
@@ -193,9 +191,13 @@ JOGc(".pane.top.tabs.fmanual.jogf.jog.jogplus");
 BFc(".pane.top.tabs.fmanual.jogf.jog.jogincr");
 
 Bc(".pane.top.tabs.fmanual.jogf.zerohome");
-BFc(".pane.top.tabs.fmanual.jogf.zerohome.home");
-BFc(".pane.top.tabs.fmanual.jogf.zerohome.zero");
-BFc(".pane.top.tabs.fmanual.jogf.zerohome.tooltouch");
+
+def HOMEc(name):
+	BFc(name)
+	rC(name, "configure", '-height', 2)
+HOMEc(".pane.top.tabs.fmanual.jogf.zerohome.home");
+HOMEc(".pane.top.tabs.fmanual.jogf.zerohome.zero");
+HOMEc(".pane.top.tabs.fmanual.jogf.zerohome.tooltouch");
 
 ### Override limits
 BFc(".pane.top.tabs.fmanual.spindlel");
@@ -237,57 +239,34 @@ BFc(".pane.bottom.t.text")
 Bc(".pane.bottom.t.sb")
 
 BFc(".pane.top.gcodel")
-rC(".pane.top.gcodel", 'configure', '-text', "GCodes:")
 BFc(".pane.top.gcodes")
 
-Bc(".pane.top.ajogspeed")
-BFc(".pane.top.ajogspeed.l0")
-BFc(".pane.top.ajogspeed.l1")
-BFc(".pane.top.ajogspeed.l")
-BFc(".pane.top.ajogspeed.s")
+#name = name.rsplit('.', 1)[0] + '.l'
+#rC('pack', name, '-side', 'top')
 
-Bc(".pane.top.jogspeed")
-BFc(".pane.top.jogspeed.l0")
-rC(".pane.top.jogspeed.l0", 'configure', '-text', "Jog:")
-BFc(".pane.top.jogspeed.l1")
-BFc(".pane.top.jogspeed.l")
-BFc(".pane.top.jogspeed.s")
+def TUNE_SLIDER(base, scale, a, b, c):
+	Bc(base)
+	BFc(base + scale)
+	BFc(base + a)
+	BFc(base + b)
+	BFc(base + c)
+	
+	rC(base + scale, 'configure', '-width', SLIDER_HEIGHT, '-length', SLIDER_WIDTH)
+	rC('pack', base + scale, '-side', 'bottom', '-anchor', 'e')
+	
+	#rC('pack', 'forget', base + scale)
+	
+	#rC('pack', 'forget', base + a)
+	#rC('pack', 'forget', base + b)
+	#rC('pack', 'forget', base + c)
 
-Bc(".pane.top.maxvel")
-BFc(".pane.top.maxvel.l0")
-rC(".pane.top.maxvel.l0", 'configure', '-text', "Speed:")
-BFc(".pane.top.maxvel.l1")
-BFc(".pane.top.maxvel.l")
-BFc(".pane.top.maxvel.s")
+TUNE_SLIDER('.pane.top.ajogspeed', '.s', '.l0', '.l1', '.l')
+TUNE_SLIDER('.pane.top.jogspeed', '.s', '.l0', '.l1', '.l')
+TUNE_SLIDER('.pane.top.maxvel', '.s', '.l0', '.l1', '.l')
 
-Bc(".pane.top.spinoverride")
-BFc(".pane.top.spinoverride.foscale")
-BFc(".pane.top.spinoverride.foentry")
-BFc(".pane.top.spinoverride.l")
-BFc(".pane.top.spinoverride.m")
-
-Bc(".pane.top.feedoverride")
-BFc(".pane.top.feedoverride.foscale")
-BFc(".pane.top.feedoverride.foentry")
-BFc(".pane.top.feedoverride.l")
-rC(".pane.top.feedoverride.l", 'configure', '-text', "Feed:")
-BFc(".pane.top.feedoverride.m")
-
-Bc(".pane.top.rapidoverride")
-BFc(".pane.top.rapidoverride.foscale")
-BFc(".pane.top.rapidoverride.foentry")
-BFc(".pane.top.rapidoverride.l")
-rC(".pane.top.rapidoverride.l", 'configure', '-text', "Rapid:")
-BFc(".pane.top.rapidoverride.m")
-
-def SCALEconfig(name):
-	rC(name, 'configure', '-width', SLIDER_HEIGHT, '-length', SLIDER_WIDTH)
-
-SCALEconfig('.pane.top.spinoverride.foscale')
-SCALEconfig('.pane.top.feedoverride.foscale')
-SCALEconfig('.pane.top.rapidoverride.foscale')
-SCALEconfig('.pane.top.maxvel.s')
-SCALEconfig('.pane.top.jogspeed.s')
+TUNE_SLIDER('.pane.top.spinoverride', '.foscale', '.l', '.foentry', '.m')
+TUNE_SLIDER('.pane.top.feedoverride', '.foscale', '.l', '.foentry', '.m')
+TUNE_SLIDER('.pane.top.rapidoverride', '.foscale', '.l', '.foentry', '.m')
 
 ### DRO
 BFc('.pane.top.right.fnumbers.text')
@@ -306,30 +285,6 @@ except Exception as e:
 	print(e)
 """
 #rC('destroy', ".pane.top.tabs.fmanual.jogf.zerohome.tooltouch")
-"""
-from gi.repository import GObject
-from gi.repository import Notify
-
-class MyNotification(GObject.Object):
-	def __init__(self):
-		super(MyNotification, self).__init__()
-		Notify.init("ofa_mod")
-
-	def clear(self, iconname = None):
-		print("->>> clear")
-
-	def clear_one(self):
-		print("->>> clear_one")
-
-	def add(self, iconname, message):
-		file_path_to_icon = ""
-		n = Notify.Notification.new("NNNN", message, file_path_to_icon).show()
-
-	def remove(self, widgets):
-		print("->>> remove")
-
-notifications = MyNotification()
-"""
 
 class MyNotification(Tkinter.Frame):
 	def __init__(self, master):
@@ -371,3 +326,4 @@ class MyNotification(Tkinter.Frame):
 			self.place_forget()
 
 notifications = MyNotification(root_window)
+
