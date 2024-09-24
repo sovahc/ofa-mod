@@ -48,7 +48,7 @@ def load_icons():
 icons = load_icons() # keep reference to images as Tk wants
 
 def rC(*args):
-	root_window.tk.call(*args)
+	return root_window.tk.call(*args)
 
 if EXIT_DIALOG == 0:
 	rC("wm","protocol",".","WM_DELETE_WINDOW","destroy .")
@@ -145,18 +145,17 @@ Bc('.pane.top')
 BFc('.pane.top.tabs')
 BFc('.pane.top.right')
 
-rC('.pane.top.tabs','itemconfigure','manual',"-background",BG2,"-foreground",FG)
-rC('.pane.top.tabs','itemconfigure','mdi',"-background",BG2,"-foreground",FG)
-rC('.pane.top.right','itemconfigure','numbers',"-background",BG2,"-foreground",FG)
-rC('.pane.top.right','itemconfigure','preview',"-background",BG2,"-foreground",FG)
-
-#root_window.option_get(name, classname)
+def REDO_TEXT(name, item):
+	rC(name,'itemconfigure',item,"-background",BG2,"-foreground",FG)
+	
+	text = rC(name,'itemcget',item,'-text')
+	rC(name,'itemconfigure',item,'-text', ' ' + text)
 
 # Redo the text in tabs so they resize for the new default font
-rC('.pane.top.tabs','itemconfigure','manual','-text',' Manual - F3 ')
-rC('.pane.top.tabs','itemconfigure','mdi','-text',' MDI - F5 ')
-rC('.pane.top.right','itemconfigure','preview','-text',' Preview ')
-rC('.pane.top.right','itemconfigure','numbers','-text',' DRO ')
+REDO_TEXT('.pane.top.tabs', 'manual')
+REDO_TEXT('.pane.top.tabs', 'mdi')
+REDO_TEXT('.pane.top.right', 'preview')
+REDO_TEXT('.pane.top.right', 'numbers')
 
 #### Radio buttons
 def RADIOc(name):
