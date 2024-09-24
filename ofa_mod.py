@@ -306,3 +306,68 @@ except Exception as e:
 	print(e)
 """
 #rC('destroy', ".pane.top.tabs.fmanual.jogf.zerohome.tooltouch")
+"""
+from gi.repository import GObject
+from gi.repository import Notify
+
+class MyNotification(GObject.Object):
+	def __init__(self):
+		super(MyNotification, self).__init__()
+		Notify.init("ofa_mod")
+
+	def clear(self, iconname = None):
+		print("->>> clear")
+
+	def clear_one(self):
+		print("->>> clear_one")
+
+	def add(self, iconname, message):
+		file_path_to_icon = ""
+		n = Notify.Notification.new("NNNN", message, file_path_to_icon).show()
+
+	def remove(self, widgets):
+		print("->>> remove")
+
+notifications = MyNotification()
+"""
+
+class MyNotification(Tkinter.Frame):
+	def __init__(self, master):
+		self.widgets = []
+		Tkinter.Frame.__init__(self, master)
+		
+		self.configure(background=BG2)
+
+	def clear(self, iconname = None):
+		while self.widgets:
+			self.remove(self.widgets[0])
+
+	def clear_one(self):
+		if self.widgets:
+			self.remove(self.widgets[0])
+
+	def add(self, iconname, message):
+		message = message.rstrip()
+		#print('MyNotification', iconname, message)
+		
+		self.place(relx=1, rely=1, y=-20, anchor="se")
+		frame = Tkinter.Frame(self)
+		button = Tkinter.Button(frame, text=message, wraplength=int(1000*SCALE),
+			justify="left", compound="left", image=icons[0],
+			background=BG2, fg=FG)
+		
+		wi = frame, button
+		button.pack(side="left")
+		button.configure(command=lambda: self.remove(wi))
+		frame.pack(side="top", anchor="e")
+		self.widgets.append(wi)
+
+	def remove(self, widgets):
+		widgets[0].destroy()
+		
+		self.widgets.remove(widgets)
+		
+		if len(self.widgets) == 0:
+			self.place_forget()
+
+notifications = MyNotification(root_window)
