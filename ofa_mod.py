@@ -21,7 +21,7 @@ FONT_SIZE = int( CONFIG('FONT_SIZE', 10 * SCALE) )
 BUTTON_SIZE = int( CONFIG('BUTTON_SIZE', 64 * SCALE) )
 
 SLIDER_WIDTH = int( CONFIG('SLIDER_WIDTH', 300 * SCALE) )
-SLIDER_HEIGHT = int( CONFIG('SLIDER_HEIGHT', 24 * SCALE) )
+SLIDER_HEIGHT = int( CONFIG('SLIDER_HEIGHT', 32 * SCALE) )
 
 EXIT_DIALOG = int( CONFIG('EXIT_DIALOG', 0) )
 
@@ -29,23 +29,26 @@ import random
 from PIL import ImageTk, Image
 import os
 
-def load_icons():
+def load_icons(filename):
 	r = []
 	
 	me = inifile.find('DISPLAY', 'USER_COMMAND_FILE')
-	icons_file = os.path.split(me)[0] + "/ofa_icons.png"
+	icons_file = os.path.split(me)[0] + filename
 	
 	ofa_icons = Image.open(icons_file)
 	(w, h) = ofa_icons.size
 	count = w // h
-	for i in range(0, count+1):
+	for i in range(0, count):
 		icon = ofa_icons.crop((i*h, 0, i*h+h, h))
 		photo = ImageTk.PhotoImage(icon)
 		r.append(photo)
 	
 	return r
 
-icons = load_icons() # keep reference to images as Tk wants
+# keep reference to images as Tk wants
+toolbar_icons = load_icons("/toolbar_icons.png")
+message_icons = {}
+(message_icons['info'], message_icons['error']) = load_icons("/message_icons.png")
 
 def rC(*args):
 	return root_window.tk.call(*args)
@@ -62,13 +65,13 @@ def BFc(name):
 def BFSc(name):
 	rC(name, "configure", "-background", BG, '-fg', FG, '-selectcolor', SC);
 
-next_icon = 1
+next_icon = 0
 
 def TOOLBARc(name):
 	global next_icon
 	rC(name, "configure", "-background", BG2, "-fg", FG);
 	rC(name, "configure", '-width', BUTTON_SIZE, '-height', BUTTON_SIZE, '-borderwidth', 0)
-	rC(name, "configure", '-image', icons[next_icon])
+	rC(name, "configure", '-image', toolbar_icons[next_icon])
 	next_icon += 1
 
 # Workaround to get the size of the current screen in a multi-screen setup.
@@ -312,7 +315,7 @@ class MyNotification(Tkinter.Frame):
 		self.place(relx=1, rely=1, y=-20, anchor="se")
 		frame = Tkinter.Frame(self)
 		button = Tkinter.Button(frame, text=message, wraplength=int(1000*SCALE),
-			justify="left", compound="left", image=icons[0],
+			justify="left", compound="left", image=message_icons[iconname],
 			background=BG2, fg=FG)
 		
 		wi = frame, button
