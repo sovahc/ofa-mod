@@ -7,11 +7,11 @@ SCALE = float(CONFIG('SCALE', 2.0))
 
 # Randomize window position to avoid burn-in
 OLED_SHIFT = int( CONFIG('OLED_SHIFT', 64 * SCALE) )
-OLED_SHIFT = 0 ###############################333
+OLED_SHIFT = 0 ######################################################################
 
 FONT_NAME = CONFIG('FONT_NAME', 'mono')
 FONT_SIZE = int( CONFIG('FONT_SIZE', 10 * SCALE) )
-#GCODE_FONT_SIZE = int( CONFIG('GCODE_FONT_SIZE', 8 * SCALE) )
+
 (BG, BG2, FG, SC) = (
 	CONFIG('BACKGROUND', 'black'),
 	CONFIG('BACKGROUND2', 'grey20'),
@@ -20,7 +20,7 @@ FONT_SIZE = int( CONFIG('FONT_SIZE', 10 * SCALE) )
 
 BUTTON_SIZE = int( CONFIG('BUTTON_SIZE', 64 * SCALE) )
 
-SLIDER_WIDTH = int( CONFIG('SLIDER_WIDTH', 300 * SCALE) )
+SLIDER_WIDTH = int( CONFIG('SLIDER_WIDTH', 320 * SCALE) )
 SLIDER_HEIGHT = int( CONFIG('SLIDER_HEIGHT', 32 * SCALE) )
 
 EXIT_DIALOG = int( CONFIG('EXIT_DIALOG', 0) )
@@ -40,6 +40,11 @@ def load_icons(filename):
 	count = w // h
 	for i in range(0, count):
 		icon = ofa_icons.crop((i*h, 0, i*h+h, h))
+		
+		(iw, ih) = icon.size
+		if iw != BUTTON_SIZE or ih != BUTTON_SIZE:
+			icon = icon.resize((BUTTON_SIZE, BUTTON_SIZE), resample = Image.Resampling.LANCZOS)
+		
 		photo = ImageTk.PhotoImage(icon)
 		r.append(photo)
 	
@@ -161,13 +166,10 @@ REDO_TEXT('.pane.top.right', 'preview')
 REDO_TEXT('.pane.top.right', 'numbers')
 
 #### Radio buttons
-def RADIOc(name):
+for ax in 'xyzabcuvw':
+	name = ".pane.top.tabs.fmanual.axes.axis" + ax;
 	BFSc(name)
 	rC(name, "configure", '-width', 4, '-height', 2, '-indicatoron', False, '-anchor', 'center')
-	
-RADIOc(".pane.top.tabs.fmanual.axes.axisx");
-RADIOc(".pane.top.tabs.fmanual.axes.axisy");
-RADIOc(".pane.top.tabs.fmanual.axes.axisz");
 
 BFc(".pane.top.tabs");
 Bc(".pane.top.tabs.fmanual");
@@ -191,6 +193,10 @@ def JOGc(name):
 JOGc(".pane.top.tabs.fmanual.jogf.jog.jogminus");
 JOGc(".pane.top.tabs.fmanual.jogf.jog.jogplus");
 BFc(".pane.top.tabs.fmanual.jogf.jog.jogincr");
+
+# swapping
+rC('grid', ".pane.top.tabs.fmanual.jogf.jog.jogincr", '-column', 1, '-row', 0)
+rC('grid', ".pane.top.tabs.fmanual.jogf.jog.jogplus", '-column', 2, '-row', 0)
 
 Bc(".pane.top.tabs.fmanual.jogf.zerohome");
 
@@ -291,7 +297,6 @@ try:
 except Exception as e:
 	print(e)
 """
-#rC('destroy', ".pane.top.tabs.fmanual.jogf.zerohome.tooltouch")
 
 class MyNotification(Tkinter.Frame):
 	def __init__(self, master):
@@ -333,4 +338,3 @@ class MyNotification(Tkinter.Frame):
 			self.place_forget()
 
 notifications = MyNotification(root_window)
-
