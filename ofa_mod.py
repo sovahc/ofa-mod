@@ -20,7 +20,7 @@ FONT_SIZE = int( CONFIG('FONT_SIZE', 10 * SCALE) )
 
 BUTTON_SIZE = int( CONFIG('BUTTON_SIZE', 64 * SCALE) )
 
-SLIDER_WIDTH = int( CONFIG('SLIDER_WIDTH', 200 * SCALE) )
+SLIDER_WIDTH = int( CONFIG('SLIDER_WIDTH', 300 * SCALE) )
 SLIDER_HEIGHT = int( CONFIG('SLIDER_HEIGHT', 24 * SCALE) )
 
 EXIT_DIALOG = int( CONFIG('EXIT_DIALOG', 0) )
@@ -194,6 +194,7 @@ Bc(".pane.top.tabs.fmanual.jogf.zerohome");
 def HOMEc(name):
 	BFc(name)
 	rC(name, "configure", '-height', 2)
+
 HOMEc(".pane.top.tabs.fmanual.jogf.zerohome.home");
 HOMEc(".pane.top.tabs.fmanual.jogf.zerohome.zero");
 HOMEc(".pane.top.tabs.fmanual.jogf.zerohome.tooltouch");
@@ -240,10 +241,7 @@ Bc(".pane.bottom.t.sb")
 BFc(".pane.top.gcodel")
 BFc(".pane.top.gcodes")
 
-#name = name.rsplit('.', 1)[0] + '.l'
-#rC('pack', name, '-side', 'top')
-
-def TUNE_SLIDER(base, scale, a, b, c):
+def TUNE_SLIDER(index, base, scale, a, b, c):
 	Bc(base)
 	BFc(base + scale)
 	BFc(base + a)
@@ -251,21 +249,28 @@ def TUNE_SLIDER(base, scale, a, b, c):
 	BFc(base + c)
 	
 	rC(base + scale, 'configure', '-width', SLIDER_HEIGHT, '-length', SLIDER_WIDTH)
-	rC('pack', base + scale, '-side', 'bottom', '-anchor', 'e')
-	
-	#rC('pack', 'forget', base + scale)
-	
-	#rC('pack', 'forget', base + a)
-	#rC('pack', 'forget', base + b)
-	#rC('pack', 'forget', base + c)
 
-TUNE_SLIDER('.pane.top.ajogspeed', '.s', '.l0', '.l1', '.l')
-TUNE_SLIDER('.pane.top.jogspeed', '.s', '.l0', '.l1', '.l')
-TUNE_SLIDER('.pane.top.maxvel', '.s', '.l0', '.l1', '.l')
+	rC('pack', 'forget', base + scale)
+	rC('pack', 'forget', base + a)
+	rC('pack', 'forget', base + b)
+	rC('pack', 'forget', base + c)
+	
+	row = 2+index*2
+	
+	rC('grid', base + a, '-column', 0, '-row', row, '-sticky', 'nw')
+	rC('grid', base + b, '-column', 0, '-row', row, '-sticky', 'ne')
+	#rC('grid', base + c, '-column', 0, '-row', row, '-sticky', 'n')
+	rC('grid', base + scale, '-column', 0, '-row', row+1, '-sticky', 'n')
 
-TUNE_SLIDER('.pane.top.spinoverride', '.foscale', '.l', '.foentry', '.m')
-TUNE_SLIDER('.pane.top.feedoverride', '.foscale', '.l', '.foentry', '.m')
-TUNE_SLIDER('.pane.top.rapidoverride', '.foscale', '.l', '.foentry', '.m')
+rC('grid', '.pane.top.gcodel', '-column', 0, '-row', 12, '-sticky', 'n')
+rC('grid', '.pane.top.gcodes', '-column', 0, '-row', 13, '-sticky', 'n')
+
+TUNE_SLIDER(0, '.pane.top.feedoverride', '.foscale', '.l', '.foentry', '.m')
+TUNE_SLIDER(1, '.pane.top.rapidoverride', '.foscale', '.l', '.foentry', '.m')
+TUNE_SLIDER(2, '.pane.top.spinoverride', '.foscale', '.l', '.foentry', '.m')
+TUNE_SLIDER(3, '.pane.top.jogspeed', '.s', '.l0', '.l', '.l1')
+TUNE_SLIDER(4, '.pane.top.ajogspeed', '.s', '.l0', '.l', '.l1')
+TUNE_SLIDER(5, '.pane.top.maxvel', '.s', '.l0', '.l', '.l1')
 
 ### DRO
 BFc('.pane.top.right.fnumbers.text')
