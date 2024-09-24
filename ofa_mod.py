@@ -3,11 +3,12 @@
 def CONFIG(name, default):
 	return inifile.find('DISPLAY', name) or default
 
-SCALE = float(CONFIG('SCALE', 2.0))
+FULLSCREEN = int( CONFIG('FULLSCREEN', 0) )
+
+SCALE = float( CONFIG('SCALE', 2.0) )
 
 # Randomize window position to avoid burn-in
 OLED_SHIFT = int( CONFIG('OLED_SHIFT', 64 * SCALE) )
-OLED_SHIFT = 0 ######################################################################
 
 FONT_NAME = CONFIG('FONT_NAME', 'mono')
 FONT_SIZE = int( CONFIG('FONT_SIZE', 10 * SCALE) )
@@ -91,7 +92,9 @@ def get_curr_screen_geometry():
 	geometry = geometry.replace('+', 'x').split('x')
 	return [int(n) for n in geometry]
 
-if OLED_SHIFT > 0:
+if FULLSCREEN != 0:
+	root_window.attributes("-fullscreen", True)
+elif OLED_SHIFT > 0:
 	(w, h, x, y) = get_curr_screen_geometry()
 	w -= OLED_SHIFT * 2
 	h -= OLED_SHIFT * 2
@@ -315,7 +318,6 @@ class MyNotification(Tkinter.Frame):
 
 	def add(self, iconname, message):
 		message = message.rstrip()
-		#print('MyNotification', iconname, message)
 		
 		self.place(relx=1, rely=1, y=-20, anchor="se")
 		frame = Tkinter.Frame(self)
@@ -338,3 +340,9 @@ class MyNotification(Tkinter.Frame):
 			self.place_forget()
 
 notifications = MyNotification(root_window)
+#notifications.add('info', 'test test test')
+
+if SCALE >= 1.5:
+	# A bit thicker lines
+	glEnable(GL_LINE_SMOOTH)
+	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
