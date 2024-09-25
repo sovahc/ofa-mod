@@ -74,6 +74,13 @@ SLIDER_HEIGHT = int( CONFIG('SLIDER_HEIGHT', 32 * SCALE) )
 
 EXIT_DIALOG = int( CONFIG('EXIT_DIALOG', 0) )
 
+THICK_LINES = int( CONFIG('THICK_LINES', SCALE >= 1.5) )
+
+if THICK_LINES:
+	# A bit thicker lines
+	glEnable(GL_LINE_SMOOTH)
+	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
+
 import random
 from PIL import ImageTk, Image
 import os
@@ -120,7 +127,6 @@ def BFSc(name):
 	rC(name, 'configure', '-background', BG, '-fg', FG, '-selectcolor', SC);
 
 def TOOLBARc(index, name):
-	global next_icon
 	rC(name, 'configure', '-background', BG2, '-fg', FG);
 	rC(name, 'configure', '-width', BUTTON_SIZE, '-height', BUTTON_SIZE, '-borderwidth', 0)
 	rC(name, 'configure', '-image', toolbar_icons[index])
@@ -370,9 +376,3 @@ class MyNotification(Tkinter.Frame):
 			self.place_forget()
 
 notifications = MyNotification(root_window)
-#notifications.add("info", 'test test test')
-
-if SCALE >= 1.5:
-	# A bit thicker lines
-	glEnable(GL_LINE_SMOOTH)
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
