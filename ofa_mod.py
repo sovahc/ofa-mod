@@ -217,9 +217,7 @@ Bc(".pane.top.tabs.fmanual.spindlef");
 Bc(".pane.top.tabs.fmanual.spindlef.row1");
 Bc(".pane.top.tabs.fmanual.spindlef.row2");
 
-### Spindle radio buton ccw
-
-### Spindle radio buton cw
+### Spindle radio butons
 BFSc(".pane.top.tabs.fmanual.spindlef.ccw");
 BFSc(".pane.top.tabs.fmanual.spindlef.cw");
 
@@ -272,6 +270,7 @@ def TUNE_SLIDER(index, base, scale, a, b, c):
 	rC('grid', base + a, '-column', 0, '-row', row, '-sticky', 'nw')
 	rC('grid', base + b, '-column', 0, '-row', row, '-sticky', 'ne')
 	#rC('grid', base + c, '-column', 0, '-row', row, '-sticky', 'n')
+		# I think it's ok to hide units
 	rC('grid', base + scale, '-column', 0, '-row', row+1, '-sticky', 'n')
 
 rC('grid', '.pane.top.gcodel', '-column', 0, '-row', 12, '-sticky', 'n')
@@ -286,20 +285,6 @@ TUNE_SLIDER(5, '.pane.top.maxvel', '.s', '.l0', '.l', '.l1')
 
 ### DRO
 BFc('.pane.top.right.fnumbers.text')
-
-"""
-# Change plotter colors
-try:
-	live_plotter.logger.set_colors( # RGBA
-		(255,0,0,255),     # jog
-		(0,255,0,255),     # rapid
-		(0,0,255,255),     # feed
-		(255,255,0,255),   # arc
-		(255,255,255,255), # toolchange
-		(0,255,255,255))   # probe
-except Exception as e:
-	print(e)
-"""
 
 class MyNotification(Tkinter.Frame):
 	def __init__(self, master):
@@ -340,7 +325,6 @@ class MyNotification(Tkinter.Frame):
 			self.place_forget()
 
 notifications = MyNotification(root_window)
-#notifications.add('info', 'test test test')
 
 if SCALE >= 1.5:
 	# A bit thicker lines
