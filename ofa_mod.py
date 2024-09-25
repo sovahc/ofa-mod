@@ -3,15 +3,63 @@
 def CONFIG(name, default):
 	return inifile.find('DISPLAY', name) or default
 
-FULLSCREEN = int( CONFIG('FULLSCREEN', 0) )
+auto_font_size = [
+	(640, 480, 8),
+	(1024, 768, 10),
+	(1920, 1080, 20),
+	(2048, 1024, 20),
+	(3280, 1920, 20)
+]
 
-SCALE = float( CONFIG('SCALE', 2.0) )
+# Workaround to get the size of the current screen in a multi-screen setup.
+def get_curr_screen_geometry():
+	
+	root = Tkinter.Tk()
+	root.update_idletasks()
+	root.attributes('-fullscreen', True)
+	root.state('iconic')
+	geometry = root.winfo_geometry()
+	root.destroy()
+	
+	geometry = geometry.replace('+', 'x').split('x')
+	return [int(n) for n in geometry]
+
+curr_screen_geometry = get_curr_screen_geometry()
+
+SCALE = CONFIG('SCALE', 'AUTO')
+FONT_SIZE = None
+
+if SCALE != 'AUTO':
+	SCALE = float(SCALE)
+	FONT_SIZE = int(10 * SCALE)
+else:
+	(W, H, X, Y) = curr_screen_geometry
+	
+	SCALE = (W+H) / (1920+1080)
+
+	best_distance = float('inf')
+	best_font_size = 0
+	
+	for w, h, font_size in auto_font_size:
+		
+		distance = abs((W+H) - (w+h))
+		
+		if distance < best_distance:
+			best_distance = distance
+			best_font_size = font_size
+			
+	FONT_SIZE = best_font_size
+	
+	print("Autoselected font size:", FONT_SIZE)
+	print("Autoselected scale factor:", SCALE)
+
+FULLSCREEN = int( CONFIG('FULLSCREEN', 0) )
 
 # Randomize window position to avoid burn-in
 OLED_SHIFT = int( CONFIG('OLED_SHIFT', 64 * SCALE) )
 
 FONT_NAME = CONFIG('FONT_NAME', 'mono')
-FONT_SIZE = int( CONFIG('FONT_SIZE', 10 * SCALE) )
+FONT_SIZE = int( CONFIG('FONT_SIZE', FONT_SIZE) )
 
 (BG, BG2, FG, SC) = (
 	CONFIG('BACKGROUND', 'black'),
@@ -77,22 +125,10 @@ def TOOLBARc(index, name):
 	rC(name, 'configure', '-width', BUTTON_SIZE, '-height', BUTTON_SIZE, '-borderwidth', 0)
 	rC(name, 'configure', '-image', toolbar_icons[index])
 
-# Workaround to get the size of the current screen in a multi-screen setup.
-def get_curr_screen_geometry():
-	root = Tkinter.Tk()
-	root.update_idletasks()
-	root.attributes('-fullscreen', True)
-	root.state('iconic')
-	geometry = root.winfo_geometry()
-	root.destroy()
-	
-	geometry = geometry.replace('+', 'x').split('x')
-	return [int(n) for n in geometry]
-
 if FULLSCREEN != 0:
 	root_window.attributes("-fullscreen", True)
 elif OLED_SHIFT > 0:
-	(w, h, x, y) = get_curr_screen_geometry()
+	(w, h, x, y) = curr_screen_geometry
 	w -= OLED_SHIFT * 2
 	h -= OLED_SHIFT * 2
 	
