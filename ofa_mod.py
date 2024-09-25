@@ -60,22 +60,22 @@ def rC(*args):
 	return root_window.tk.call(*args)
 
 if EXIT_DIALOG == 0:
-	rC("wm","protocol",".","WM_DELETE_WINDOW","destroy .")
+	rC('wm', 'protocol', '.', 'WM_DELETE_WINDOW', 'destroy .')
 
 def Bc(name):
-	rC(name, "configure", "-background", BG);
+	rC(name, 'configure', '-background', BG);
 
 def BFc(name):
-	rC(name, "configure", "-background", BG, "-fg", FG);
+	rC(name, 'configure', '-background', BG, '-fg', FG);
 
 def BFSc(name):
-	rC(name, "configure", "-background", BG, '-fg', FG, '-selectcolor', SC);
+	rC(name, 'configure', '-background', BG, '-fg', FG, '-selectcolor', SC);
 
 def TOOLBARc(index, name):
 	global next_icon
-	rC(name, "configure", "-background", BG2, "-fg", FG);
-	rC(name, "configure", '-width', BUTTON_SIZE, '-height', BUTTON_SIZE, '-borderwidth', 0)
-	rC(name, "configure", '-image', toolbar_icons[index])
+	rC(name, 'configure', '-background', BG2, '-fg', FG);
+	rC(name, 'configure', '-width', BUTTON_SIZE, '-height', BUTTON_SIZE, '-borderwidth', 0)
+	rC(name, 'configure', '-image', toolbar_icons[index])
 
 # Workaround to get the size of the current screen in a multi-screen setup.
 def get_curr_screen_geometry():
@@ -109,8 +109,8 @@ rC('tk', 'scaling', SCALE)
 rC('font','configure','TkDefaultFont','-family', FONT_NAME, '-size', FONT_SIZE)
 
 # G-code font
-rC('.pane.bottom.t.text', 'configure', '-foreground', 'blue', '-font', FONT_NAME)
-rC('.pane.top.gcodes', 'configure', '-foreground', 'blue', '-font', FONT_NAME)
+rC(".pane.bottom.t.text", 'configure', '-foreground', 'blue', '-font', FONT_NAME)
+rC(".pane.top.gcodes", 'configure', '-foreground', 'blue', '-font', FONT_NAME)
 
 ### Menu
 
@@ -127,7 +127,7 @@ BFc(".menu.machine.clearoffset")
 
 ### Toolbar
 
-Bc('.toolbar')
+Bc(".toolbar")
 TOOLBARc(0, ".toolbar.machine_estop")
 TOOLBARc(1, ".toolbar.machine_power")
 TOOLBARc(2, ".toolbar.file_open")
@@ -150,37 +150,38 @@ TOOLBARc(18, ".toolbar.clear_plot")
 
 
 def VRULE(name):
-	rC(name, 'configure', "-background", BG, '-width', int(10 * SCALE),
+	rC(name, 'configure', '-background', BG, '-width', int(10 * SCALE),
 		'-borderwidth', 0, '-padx', 0, '-pady', 0)
 
-VRULE('.toolbar.rule0')
-VRULE('.toolbar.rule4')
-VRULE('.toolbar.rule8')
-VRULE('.toolbar.rule9')
-VRULE('.toolbar.rule12')
+VRULE(".toolbar.rule0")
+VRULE(".toolbar.rule4")
+VRULE(".toolbar.rule8")
+VRULE(".toolbar.rule9")
+VRULE(".toolbar.rule12")
 
 # Pane top tabs notebook
-Bc('.pane.top')
-BFc('.pane.top.tabs')
-BFc('.pane.top.right')
+Bc(".pane.top")
+BFc(".pane.top.tabs")
+BFc(".pane.top.right")
 
 def REDO_TEXT(name, item):
-	rC(name,'itemconfigure',item,"-background",BG2,"-foreground",FG)
+	rC(name, 'itemconfigure', item, '-background', BG2, '-foreground', FG)
 	
-	text = rC(name,'itemcget',item,'-text')
-	rC(name,'itemconfigure',item,'-text', ' ' + text)
+	text = rC(name, 'itemcget', item, '-text')
+	rC(name, 'itemconfigure', item, '-text', ' ' + text)
+	rC(name, 'itemconfigure', item, '-text', text)
 
 # Redo the text in tabs so they resize for the new default font
-REDO_TEXT('.pane.top.tabs', 'manual')
-REDO_TEXT('.pane.top.tabs', 'mdi')
-REDO_TEXT('.pane.top.right', 'preview')
-REDO_TEXT('.pane.top.right', 'numbers')
+REDO_TEXT(".pane.top.tabs", "manual")
+REDO_TEXT(".pane.top.tabs", "mdi")
+REDO_TEXT(".pane.top.right", "preview")
+REDO_TEXT(".pane.top.right", "numbers")
 
 #### Radio buttons
 for ax in 'xyzabcuvw':
 	name = ".pane.top.tabs.fmanual.axes.axis" + ax;
 	BFSc(name)
-	rC(name, "configure", '-width', 4, '-height', 2, '-indicatoron', False, '-anchor', 'center')
+	rC(name, 'configure', '-width', 4, '-height', 2, '-indicatoron', False, '-anchor', 'center')
 
 BFc(".pane.top.tabs");
 Bc(".pane.top.tabs.fmanual");
@@ -199,7 +200,7 @@ Bc(".pane.top.tabs.fmanual.jogf.jog");
 
 def JOGc(name):
 	BFc(name)
-	rC(name, "configure", '-width', 4, '-height', 2)
+	rC(name, 'configure', '-width', 4, '-height', 2)
 
 JOGc(".pane.top.tabs.fmanual.jogf.jog.jogminus");
 JOGc(".pane.top.tabs.fmanual.jogf.jog.jogplus");
@@ -213,7 +214,7 @@ Bc(".pane.top.tabs.fmanual.jogf.zerohome");
 
 def HOMEc(name):
 	BFc(name)
-	rC(name, "configure", '-height', 2)
+	rC(name, 'configure', '-height', 2)
 
 HOMEc(".pane.top.tabs.fmanual.jogf.zerohome.home");
 HOMEc(".pane.top.tabs.fmanual.jogf.zerohome.zero");
@@ -281,25 +282,25 @@ def TUNE_SLIDER(index, base, scale, a, b, c):
 		# I think it's ok to hide units
 	rC('grid', base + scale, '-column', 0, '-row', row+1, '-sticky', 'n')
 
-rC('grid', '.pane.top.gcodel', '-column', 0, '-row', 12, '-sticky', 'n')
-rC('grid', '.pane.top.gcodes', '-column', 0, '-row', 13, '-sticky', 'n')
+rC('grid', ".pane.top.gcodel", '-column', 0, '-row', 12, '-sticky', 'n')
+rC('grid', ".pane.top.gcodes", '-column', 0, '-row', 13, '-sticky', 'n')
 
-TUNE_SLIDER(0, '.pane.top.feedoverride', '.foscale', '.l', '.foentry', '.m')
-TUNE_SLIDER(1, '.pane.top.rapidoverride', '.foscale', '.l', '.foentry', '.m')
-TUNE_SLIDER(2, '.pane.top.spinoverride', '.foscale', '.l', '.foentry', '.m')
-TUNE_SLIDER(3, '.pane.top.jogspeed', '.s', '.l0', '.l', '.l1')
-TUNE_SLIDER(4, '.pane.top.ajogspeed', '.s', '.l0', '.l', '.l1')
-TUNE_SLIDER(5, '.pane.top.maxvel', '.s', '.l0', '.l', '.l1')
+TUNE_SLIDER(0, ".pane.top.feedoverride", ".foscale", ".l", ".foentry", ".m")
+TUNE_SLIDER(1, ".pane.top.rapidoverride", ".foscale", ".l", ".foentry", ".m")
+TUNE_SLIDER(2, ".pane.top.spinoverride", ".foscale", ".l", ".foentry", ".m")
+TUNE_SLIDER(3, ".pane.top.jogspeed", ".s", ".l0", ".l", ".l1")
+TUNE_SLIDER(4, ".pane.top.ajogspeed", ".s", ".l0", ".l", ".l1")
+TUNE_SLIDER(5, ".pane.top.maxvel", ".s", ".l0", ".l", ".l1")
 
 ### DRO
-BFc('.pane.top.right.fnumbers.text')
+BFc(".pane.top.right.fnumbers.text")
 
 class MyNotification(Tkinter.Frame):
 	def __init__(self, master):
 		self.widgets = []
 		Tkinter.Frame.__init__(self, master)
 		
-		self.configure(background=BG2)
+		self.configure(background = BG2)
 
 	def clear(self, iconname = None):
 		while self.widgets:
@@ -312,16 +313,16 @@ class MyNotification(Tkinter.Frame):
 	def add(self, iconname, message):
 		message = message.rstrip()
 		
-		self.place(relx=1, rely=1, y=-20, anchor="se")
+		self.place(relx = 1, rely = 1, y = -20, anchor = "se")
 		frame = Tkinter.Frame(self)
-		button = Tkinter.Button(frame, text=message, wraplength=int(1000*SCALE),
-			justify="left", compound="left", image=message_icons[iconname],
-			background=BG2, fg=FG)
+		button = Tkinter.Button(frame, text = message, wraplength = int(1000*SCALE),
+			justify = "left", compound = "left", image = message_icons[iconname],
+			background = BG2, fg = FG)
 		
 		wi = frame, button
-		button.pack(side="left")
-		button.configure(command=lambda: self.remove(wi))
-		frame.pack(side="top", anchor="e")
+		button.pack(side = "left")
+		button.configure(command = lambda: self.remove(wi))
+		frame.pack(side = "top", anchor = "e")
 		self.widgets.append(wi)
 
 	def remove(self, widgets):
