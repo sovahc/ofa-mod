@@ -148,6 +148,17 @@ TOOLBARc(16, ".toolbar.view_p")
 TOOLBARc(17, ".toolbar.rotate")
 TOOLBARc(18, ".toolbar.clear_plot")
 
+
+def VRULE(name):
+	rC(name, 'configure', "-background", BG, '-width', 20,
+		'-borderwidth', 0, '-padx', 0, '-pady', 0)
+
+VRULE('.toolbar.rule0')
+VRULE('.toolbar.rule4')
+VRULE('.toolbar.rule8')
+VRULE('.toolbar.rule9')
+VRULE('.toolbar.rule12')
+
 # Pane top tabs notebook
 Bc('.pane.top')
 BFc('.pane.top.tabs')
