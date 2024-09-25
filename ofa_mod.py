@@ -150,7 +150,7 @@ TOOLBARc(18, ".toolbar.clear_plot")
 
 
 def VRULE(name):
-	rC(name, 'configure', "-background", BG, '-width', 20,
+	rC(name, 'configure', "-background", BG, '-width', int(10 * SCALE),
 		'-borderwidth', 0, '-padx', 0, '-pady', 0)
 
 VRULE('.toolbar.rule0')
@@ -333,6 +333,7 @@ class MyNotification(Tkinter.Frame):
 			self.place_forget()
 
 notifications = MyNotification(root_window)
+notifications.add("info", 'test test test')
 
 if SCALE >= 1.5:
 	# A bit thicker lines
