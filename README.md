@@ -3,7 +3,7 @@ Oled Friendly Axis Mod
 
 This is LinuxCNC AXIS interface mod.
 
-![screenshot](doc/ofa_screenshot.png)
+![screenshot](doc/ofa_screnshot.png)
 
 ### Features:
 * Automatic selection of scale and font size
