@@ -18,7 +18,7 @@ This is LinuxCNC AXIS interface mod.
 DISPLAY = axis
 USER_COMMAND_FILE=/home/sova/Desktop/ofa_mod.py
 
-#SCALE = 1
+#SCALE = 1.0
 #FULLSCREEN=1
 #FONT_SIZE=10
 #FONT_NAME=Mono
