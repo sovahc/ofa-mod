@@ -333,7 +333,7 @@ class MyNotification(Tkinter.Frame):
 			self.place_forget()
 
 notifications = MyNotification(root_window)
-notifications.add("info", 'test test test')
+#notifications.add("info", 'test test test')
 
 if SCALE >= 1.5:
 	# A bit thicker lines
