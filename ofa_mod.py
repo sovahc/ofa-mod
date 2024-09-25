@@ -71,14 +71,11 @@ def BFc(name):
 def BFSc(name):
 	rC(name, "configure", "-background", BG, '-fg', FG, '-selectcolor', SC);
 
-next_icon = 0
-
-def TOOLBARc(name):
+def TOOLBARc(index, name):
 	global next_icon
 	rC(name, "configure", "-background", BG2, "-fg", FG);
 	rC(name, "configure", '-width', BUTTON_SIZE, '-height', BUTTON_SIZE, '-borderwidth', 0)
-	rC(name, "configure", '-image', toolbar_icons[next_icon])
-	next_icon += 1
+	rC(name, "configure", '-image', toolbar_icons[index])
 
 # Workaround to get the size of the current screen in a multi-screen setup.
 def get_curr_screen_geometry():
@@ -131,25 +128,25 @@ BFc(".menu.machine.clearoffset")
 ### Toolbar
 
 Bc('.toolbar')
-TOOLBARc(".toolbar.machine_estop")
-TOOLBARc(".toolbar.machine_power")
-TOOLBARc(".toolbar.file_open")
-TOOLBARc(".toolbar.reload")
-TOOLBARc(".toolbar.program_run")
-TOOLBARc(".toolbar.program_step")
-TOOLBARc(".toolbar.program_pause")
-TOOLBARc(".toolbar.program_stop")
-TOOLBARc(".toolbar.program_blockdelete")
-TOOLBARc(".toolbar.program_optpause")
-TOOLBARc(".toolbar.view_zoomin")
-TOOLBARc(".toolbar.view_zoomout")
-TOOLBARc(".toolbar.view_z")
-TOOLBARc(".toolbar.view_z2")
-TOOLBARc(".toolbar.view_x")
-TOOLBARc(".toolbar.view_y")
-TOOLBARc(".toolbar.view_p")
-TOOLBARc(".toolbar.rotate")
-TOOLBARc(".toolbar.clear_plot")
+TOOLBARc(0, ".toolbar.machine_estop")
+TOOLBARc(1, ".toolbar.machine_power")
+TOOLBARc(2, ".toolbar.file_open")
+TOOLBARc(3, ".toolbar.reload")
+TOOLBARc(4, ".toolbar.program_run")
+TOOLBARc(5, ".toolbar.program_step")
+TOOLBARc(6, ".toolbar.program_pause")
+TOOLBARc(7, ".toolbar.program_stop")
+TOOLBARc(8, ".toolbar.program_blockdelete")
+TOOLBARc(9, ".toolbar.program_optpause")
+TOOLBARc(10, ".toolbar.view_zoomin")
+TOOLBARc(11, ".toolbar.view_zoomout")
+TOOLBARc(12, ".toolbar.view_z")
+TOOLBARc(13, ".toolbar.view_z2")
+TOOLBARc(14, ".toolbar.view_x")
+TOOLBARc(15, ".toolbar.view_y")
+TOOLBARc(16, ".toolbar.view_p")
+TOOLBARc(17, ".toolbar.rotate")
+TOOLBARc(18, ".toolbar.clear_plot")
 
 # Pane top tabs notebook
 Bc('.pane.top')
