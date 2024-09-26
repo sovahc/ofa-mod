@@ -215,7 +215,7 @@ def REDO_TEXT(name, item):
 	rC(name, 'itemconfigure', item, '-background', BG2, '-foreground', FG)
 	
 	text = rC(name, 'itemcget', item, '-text')
-	rC(name, 'itemconfigure', item, '-text', ' ' + text)
+	rC(name, 'itemconfigure', item, '-text', ' ')
 	rC(name, 'itemconfigure', item, '-text', text)
 
 # Redo the text in tabs so they resize for the new default font
@@ -314,7 +314,8 @@ def TUNE_SLIDER(index, base, scale, a, b, c):
 	BFc(base + b)
 	BFc(base + c)
 	
-	rC(base + scale, 'configure', '-width', SLIDER_HEIGHT, '-length', SLIDER_WIDTH)
+	rC(base + scale, 'configure', '-width', SLIDER_HEIGHT, '-length', SLIDER_WIDTH,
+		'-troughcolor', BG2)
 
 	rC('pack', 'forget', base + scale)
 	rC('pack', 'forget', base + a)
