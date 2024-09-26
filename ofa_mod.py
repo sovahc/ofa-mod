@@ -127,8 +127,14 @@ def BFSc(name):
 	rC(name, 'configure', '-background', BG, '-fg', FG, '-selectcolor', SC);
 
 def TOOLBARc(index, name):
-	rC(name, 'configure', '-background', BG2, '-fg', FG);
-	rC(name, 'configure', '-width', BUTTON_SIZE, '-height', BUTTON_SIZE, '-borderwidth', 0)
+	
+	B = int(5 * SCALE) # Clearly indicate pressed button
+	
+	rC(name, 'configure', '-background', BG2, '-fg', FG, '-activebackground', BG);
+	if index == 8 or index == 9:
+		rC(name, 'configure', '-width', BUTTON_SIZE-B-B, '-height', BUTTON_SIZE-B-B, '-borderwidth', B)
+	else:
+		rC(name, 'configure', '-width', BUTTON_SIZE, '-height', BUTTON_SIZE, '-borderwidth', 0)
 	rC(name, 'configure', '-image', toolbar_icons[index])
 
 if FULLSCREEN != 0:
