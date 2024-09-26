@@ -126,12 +126,11 @@ def BFc(name):
 def BFSc(name):
 	rC(name, 'configure', '-background', BG, '-fg', FG, '-selectcolor', SC);
 
-def TOOLBARc(index, name):
-	
-	B = int(5 * SCALE) # Clearly indicate pressed button
+def TOOLBARc(index, name, toggle = False):
 	
 	rC(name, 'configure', '-background', BG2, '-fg', FG, '-activebackground', BG);
-	if index == 8 or index == 9:
+	if toggle:
+		B = int(4 * SCALE) # Clearly indicate the pressed button
 		rC(name, 'configure', '-width', BUTTON_SIZE-B-B, '-height', BUTTON_SIZE-B-B, '-borderwidth', B)
 	else:
 		rC(name, 'configure', '-width', BUTTON_SIZE, '-height', BUTTON_SIZE, '-borderwidth', 0)
@@ -176,16 +175,16 @@ BFc(".menu.machine.clearoffset")
 ### Toolbar
 
 Bc(".toolbar")
-TOOLBARc(0, ".toolbar.machine_estop")
-TOOLBARc(1, ".toolbar.machine_power")
+TOOLBARc(0, ".toolbar.machine_estop", True)
+TOOLBARc(1, ".toolbar.machine_power", True)
 TOOLBARc(2, ".toolbar.file_open")
 TOOLBARc(3, ".toolbar.reload")
-TOOLBARc(4, ".toolbar.program_run")
-TOOLBARc(5, ".toolbar.program_step")
-TOOLBARc(6, ".toolbar.program_pause")
-TOOLBARc(7, ".toolbar.program_stop")
-TOOLBARc(8, ".toolbar.program_blockdelete")
-TOOLBARc(9, ".toolbar.program_optpause")
+TOOLBARc(4, ".toolbar.program_run", True)
+TOOLBARc(5, ".toolbar.program_step", True)
+TOOLBARc(6, ".toolbar.program_pause", True)
+TOOLBARc(7, ".toolbar.program_stop", True)
+TOOLBARc(8, ".toolbar.program_blockdelete", True)
+TOOLBARc(9, ".toolbar.program_optpause", True)
 TOOLBARc(10, ".toolbar.view_zoomin")
 TOOLBARc(11, ".toolbar.view_zoomout")
 TOOLBARc(12, ".toolbar.view_z")
@@ -193,7 +192,7 @@ TOOLBARc(13, ".toolbar.view_z2")
 TOOLBARc(14, ".toolbar.view_x")
 TOOLBARc(15, ".toolbar.view_y")
 TOOLBARc(16, ".toolbar.view_p")
-TOOLBARc(17, ".toolbar.rotate")
+TOOLBARc(17, ".toolbar.rotate", True)
 TOOLBARc(18, ".toolbar.clear_plot")
 
 
