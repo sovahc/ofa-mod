@@ -26,3 +26,21 @@ USER_COMMAND_FILE=/home/sova/Desktop/ofa_mod.py
 #BACKGROUND2=grey30
 ## e.t.c
 ```
+
+In addition, you can use this utility to dim the external display after a period of inactivity: https://github.com/jD91mZM2/xidlehook
+
+Example
+```
+#!/usr/bin/env bash
+
+export PRIMARY_DISPLAY="$(xrandr --listactivemonitors | awk '/x/{print $4}')"
+
+xidlehook \
+  `# Dim the screen after 60 seconds, undim if user becomes active` \
+  --timer 60 \
+    'xrandr --output "$PRIMARY_DISPLAY" --brightness 0.5' \
+    'xrandr --output "$PRIMARY_DISPLAY" --brightness 1.0' \
+  --timer 300 \
+    'xrandr --output "$PRIMARY_DISPLAY" --brightness 0.25' \
+    'xrandr --output "$PRIMARY_DISPLAY" --brightness 1.0' \
+```
